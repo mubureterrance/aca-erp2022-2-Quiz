@@ -52,9 +52,18 @@ const Quiz: React.FC = () => {
   //a simple state to know if the quiz is completed
   const [showResult, setShowResult] = useState<boolean>(false);
 
-  const [leaderboard, setLeaderboard] = useState<{
-     score: number; total: number; percentage: number; date: string }[]>([]);
+  const [leaderboard, setLeaderboard] = useState<
+    {
+      score: number;
+      total: number;
+      percentage: number;
+      date: string;
+    }[]
+  >([]);
 
+  // State for confirmation dialog
+  const [showResetConfirmation, setShowResetConfirmation] =
+    useState<boolean>(false);
 
   // hook to handle saving whenever anything changes
   useQuizProgress(
@@ -105,7 +114,7 @@ const Quiz: React.FC = () => {
     if (isLastQuestion) {
       setShowResult(true); //if it’s the last question show results
       saveScore(score);
-      
+
       // load leaderboard data
       if (isAvailable()) {
         const scores = safelyGet("quizScores", []);
@@ -125,10 +134,32 @@ const Quiz: React.FC = () => {
     setShowAnswer(false);
     setScore(0);
     setShowResult(false);
+    setShowResetConfirmation(false);
 
     if (isAvailable()) {
       localStorage.removeItem("quizProgress");
     }
+  };
+
+  // Handle reset button click - show confirmation if quiz is in progress
+  const handleResetClick = () => {
+    // If on results page or at the very beginning, reset immediately
+    if (showResult || (index === 0 && score === 0 && !showAnswer)) {
+      handleReset();
+    } else {
+      // Show confirmation dialog if quiz is in progress
+      setShowResetConfirmation(true);
+    }
+  };
+
+  // Cancel reset confirmation
+  const handleCancelReset = () => {
+    setShowResetConfirmation(false);
+  };
+
+  // Confirm reset
+  const handleConfirmReset = () => {
+    handleReset();
   };
 
   /**saves a history of your best scores
@@ -166,6 +197,27 @@ const Quiz: React.FC = () => {
     return "Keep studying and try again!";
   };
 
+  // Confirmation dialog component
+  const ResetConfirmationDialog = () => (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>Reset Quiz?</h3>
+        <p>
+          Are you sure you want to start over? Your current progress will be
+          lost.
+        </p>
+        <div className="modal-buttons">
+          <button onClick={handleConfirmReset} className="confirm-btn">
+            Yes, Reset
+          </button>
+          <button onClick={handleCancelReset} className="cancel-btn">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   //displays the results page if the quiz is finished
   if (showResult) {
     return (
@@ -188,11 +240,11 @@ const Quiz: React.FC = () => {
           <ol className="leaderboard">
             {leaderboard.map((entry, idx) => (
               <li key={idx}>
-                {entry.percentage}% - {entry.score}/{entry.total} on {entry.date}
+                {entry.percentage}% - {entry.score}/{entry.total} on{" "}
+                {entry.date}
               </li>
             ))}
           </ol>
-
         </div>
       </div>
     );
@@ -202,7 +254,12 @@ const Quiz: React.FC = () => {
   //shows the options, buttons, question count
   return (
     <div className="container">
-      <h1>Quiz Me</h1>
+      <div className="quiz-header">
+        <h1>Quiz Me</h1>
+        <button onClick={handleResetClick} className="reset-btn-small">
+          Reset Quiz
+        </button>
+      </div>
       <hr />
       <div className="question-section">
         <h2>
@@ -241,6 +298,9 @@ const Quiz: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Reset confirmation dialog */}
+      {showResetConfirmation && <ResetConfirmationDialog />}
     </div>
   );
 };
