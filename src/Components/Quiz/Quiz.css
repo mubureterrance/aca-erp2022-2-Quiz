@@ -161,7 +161,7 @@
     box-shadow: 0 2px 8px rgba(30, 64, 175, 0.2);
 }
 
-/* Quiz Controls */
+/* Quiz Controls - Keep horizontal layout on all screen sizes */
 .quiz-controls {
     display: flex;
     justify-content: space-between;
@@ -288,20 +288,8 @@ body {
     font-size: 3rem;
 }
 
-.quiz-controls {
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-}
-
-.quiz-controls button {
-    order: 2;
-}
-
-.progress {
-    order: 1;
-    font-size: 0.9rem;
-}
+/* Removed the problematic responsive override */
+/* The quiz-controls will now maintain horizontal layout on all screen sizes */
 
 /* Quiz header with reset button */
 .quiz-header {
@@ -456,6 +444,22 @@ body {
     
     .score-percentage {
         font-size: 2.5rem;
+    }
+    
+    /* Keep quiz controls horizontal even on very small screens */
+    .quiz-controls {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .progress {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+    
+    .next-btn {
+        font-size: 0.9rem;
+        padding: 10px 20px;
     }
 }
 

@@ -11,7 +11,7 @@ const WelcomePage: React.FC = () => {
 
   return (
     <div className="welcome-container">
-      <h1>Welcome to the ACA Quiz!</h1>
+      <h1>Welcome to ACA Quiz!</h1>
       <p>Put your knowledge to the test and see how sharp you are.</p>
       <button onClick={handleStart}>Start Quiz</button>
     </div>
