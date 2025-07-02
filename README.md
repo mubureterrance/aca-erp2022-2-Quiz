@@ -1,6 +1,7 @@
 # Quiz App
 
 A modern, interactive quiz application built with React and TypeScript featuring persistent progress tracking, performance analytics, and a responsive design.
+This project was part of the Africa Code Acadamy Engineering Residency program 
 
 ## Features
 
