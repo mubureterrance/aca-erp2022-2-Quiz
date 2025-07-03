@@ -1,7 +1,7 @@
 # Quiz App
 
 A modern, interactive quiz application built with React and TypeScript featuring persistent progress tracking, performance analytics, and a responsive design.
-This project was part of the Africa Code Acadamy Engineering Residency program 
+This project was part of the Africa Code Acadamy Engineering Residency program
 
 ## Features
 
@@ -22,6 +22,15 @@ This project was part of the Africa Code Acadamy Engineering Residency program
 - **Smooth Animations**: Subtle hover effects and state transitions
 
 ### Data Management
+
+The app uses both **Firebase Firestore** and **browser localStorage** to persist data:
+
+### Firebase Firestore
+
+- **Quiz Questions**: Pulled dynamically from the `questions` collection in Firestore
+- **(Optional)**: Could be extended to store leaderboard or user scores
+
+### LocalStorage
 
 - **LocalStorage Integration**: Safely handles browser storage with fallbacks
 - **Type Safety**: Full TypeScript implementation for robust data handling
@@ -84,6 +93,13 @@ cd aca-erp2022-2-Quiz
    Navigate to `http://localhost:3000`
 
 ## Configuration
+
+### LocalStorage
+
+- **Quiz Progress**: Current question, selected answers, score
+- **Performance Data**: Per-question analytics
+- **Score History**: Top 10 scores with timestamps
+- **User Preferences**: Theme and display settings
 
 ### Adding Quiz Questions
 
@@ -162,6 +178,15 @@ The app uses CSS custom properties for easy theming. Key variables in `Quiz.css`
 ## Local Development
 
 ### Development Scripts
+
+## Quick Start Guide
+
+1. **Install dependencies**: `npm install`
+2. **Add Firebase environment variables** in `.env.local` (see below)
+3. **Start developing**: `npm start`
+4. **add questions to Firestore** (optional): use the Data.tsx for questions or create you own
+5. **Customize styling**: Modify `Quiz.css`
+6. **Build for production**: `npm run build`
 
 ```bash
 npm start          # Start development server
