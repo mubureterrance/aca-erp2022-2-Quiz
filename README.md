@@ -119,6 +119,32 @@ export const data = [
 ];
 ```
 
+## Firebase Firestore Collection Structure
+
+The quiz questions are stored in a Firestore collection named **`questions`** with the following fields:
+
+| Field    | Data Type | Description                   |
+| -------- | --------- | ----------------------------- |
+| question | `string`  | The quiz question text        |
+| option1  | `string`  | First answer choice           |
+| option2  | `string`  | Second answer choice          |
+| option3  | `string`  | Third answer choice           |
+| option4  | `string`  | Fourth answer choice          |
+| ans      | `number`  | Correct answer index (1 to 4) |
+
+> Example document in Firestore:
+
+````json
+{
+  "question": "What is JSX in React?",
+  "option1": "A JavaScript library",
+  "option2": "A syntax extension that allows HTML-like code in JavaScript",
+  "option3": "A CSS framework",
+  "option4": "A testing tool",
+  "ans": 2
+}
+
+
 ### Customizing Styles
 
 The app uses CSS custom properties for easy theming. Key variables in `Quiz.css`:
@@ -130,7 +156,7 @@ The app uses CSS custom properties for easy theming. Key variables in `Quiz.css`
   --success-color: #10b981;
   --error-color: #ef4444;
 }
-```
+````
 
 ## Usage
 
@@ -188,12 +214,27 @@ The app uses CSS custom properties for easy theming. Key variables in `Quiz.css`
 5. **Customize styling**: Modify `Quiz.css`
 6. **Build for production**: `npm run build`
 
+## Firebase Environment Setup
+
+Create a `.env.local` file at the root of your project and add the following keys:
+
+````env
+REACT_APP_FIREBASE_API_KEY=your_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_auth_domain
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+REACT_APP_FIREBASE_APP_ID=your_app_id
+REACT_APP_FIREBASE_MEASUREMENT_ID=your_measurement_id
+
+You will get these keys from the Firebase Firestore database you created
+
 ```bash
 npm start          # Start development server
 npm run build      # Build for production
 npm run test       # Run test suite
 npm run lint       # Check code quality
-```
+````
 
 ### Environment Setup
 
