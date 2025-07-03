@@ -1,7 +1,7 @@
 # Quiz App
 
 A modern, interactive quiz application built with React and TypeScript featuring persistent progress tracking, performance analytics, and a responsive design.
-This project was part of the Africa Code Acadamy Engineering Residency program
+This project was part of the Africa Code Academy Engineering Residency program.
 
 ## Features
 
@@ -25,12 +25,12 @@ This project was part of the Africa Code Acadamy Engineering Residency program
 
 The app uses both **Firebase Firestore** and **browser localStorage** to persist data:
 
-### Firebase Firestore
+#### Firebase Firestore
 
 - **Quiz Questions**: Pulled dynamically from the `questions` collection in Firestore
 - **(Optional)**: Could be extended to store leaderboard or user scores
 
-### LocalStorage
+#### LocalStorage
 
 - **LocalStorage Integration**: Safely handles browser storage with fallbacks
 - **Type Safety**: Full TypeScript implementation for robust data handling
@@ -50,32 +50,34 @@ The app uses both **Firebase Firestore** and **browser localStorage** to persist
 ```
 src/
 ├── components/
-|   └── Welcome/
-|       ├── WelcomePage.tsx              # Welcome page on quiz initial start up
-│       ├── WelcomePage.css              # Styling and responsive design
+│   └── Welcome/
+│       ├── WelcomePage.tsx              # Welcome page on quiz initial start up
+│       └── WelcomePage.css              # Styling and responsive design
 │   └── Quiz/
-│       ├── Quiz.tsx              # Main quiz component
-│       ├── Quiz.css              # Styling and responsive design
+│       ├── Quiz.tsx                     # Main quiz component
+│       ├── Quiz.css                     # Styling and responsive design
 │       └── hooks/
-│           ├── useLocalStorage.js         # LocalStorage utilities
-│           ├── useQuizProgress.js         # Progress tracking
-│           └── useQuestionPerformance.js  # Performance analytics
+│           ├── useLocalStorage.js       # LocalStorage utilities
+│           ├── useQuizProgress.js       # Progress tracking
+│           └── useQuestionPerformance.js # Performance analytics
 ├── assets/
 │   └── Images/
-│       └── aca_logo-rb.png       # Application logo
-└── Data.tsx                      # Quiz questions data
-└── App.tsx
-└── App.css
-└── Index.tsx
+│       └── aca_logo-rb.png              # Application logo
+├── Data.tsx                             # Quiz questions data
+├── App.tsx
+├── App.css
+├── Index.tsx
 └── Index.css
 ```
 
-**Clone the repository**
+## Installation
 
-```bash
-git clone [https://github.com/mubureterrance/aca-erp2022-2-Quiz]
-cd aca-erp2022-2-Quiz
-```
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/mubureterrance/aca-erp2022-2-Quiz
+   cd aca-erp2022-2-Quiz
+   ```
 
 2. **Install dependencies**
 
@@ -124,7 +126,7 @@ export const data = [
 The quiz questions are stored in a Firestore collection named **`questions`** with the following fields:
 
 | Field    | Data Type | Description                   |
-| -------- | --------- | ----------------------------- |
+|----------|-----------|-------------------------------|
 | question | `string`  | The quiz question text        |
 | option1  | `string`  | First answer choice           |
 | option2  | `string`  | Second answer choice          |
@@ -132,9 +134,9 @@ The quiz questions are stored in a Firestore collection named **`questions`** wi
 | option4  | `string`  | Fourth answer choice          |
 | ans      | `number`  | Correct answer index (1 to 4) |
 
-> Example document in Firestore:
+Example document in Firestore:
 
-````json
+```json
 {
   "question": "What is JSX in React?",
   "option1": "A JavaScript library",
@@ -143,7 +145,7 @@ The quiz questions are stored in a Firestore collection named **`questions`** wi
   "option4": "A testing tool",
   "ans": 2
 }
-
+```
 
 ### Customizing Styles
 
@@ -156,7 +158,7 @@ The app uses CSS custom properties for easy theming. Key variables in `Quiz.css`
   --success-color: #10b981;
   --error-color: #ef4444;
 }
-````
+```
 
 ## Usage
 
@@ -201,24 +203,11 @@ The app uses CSS custom properties for easy theming. Key variables in `Quiz.css`
 - **Color Contrast**: WCAG AA compliant color schemes
 - **Focus Management**: Clear visual focus indicators
 
-## Local Development
-
-### Development Scripts
-
-## Quick Start Guide
-
-1. **Install dependencies**: `npm install`
-2. **Add Firebase environment variables** in `.env.local` (see below)
-3. **Start developing**: `npm start`
-4. **add questions to Firestore** (optional): use the Data.tsx for questions or create you own
-5. **Customize styling**: Modify `Quiz.css`
-6. **Build for production**: `npm run build`
-
 ## Firebase Environment Setup
 
 Create a `.env.local` file at the root of your project and add the following keys:
 
-````env
+```env
 REACT_APP_FIREBASE_API_KEY=your_api_key
 REACT_APP_FIREBASE_AUTH_DOMAIN=your_auth_domain
 REACT_APP_FIREBASE_PROJECT_ID=your_project_id
@@ -226,15 +215,20 @@ REACT_APP_FIREBASE_STORAGE_BUCKET=your_storage_bucket
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
 REACT_APP_FIREBASE_APP_ID=your_app_id
 REACT_APP_FIREBASE_MEASUREMENT_ID=your_measurement_id
+```
 
-You will get these keys from the Firebase Firestore database you created
+You will get these keys from the Firebase Firestore database you created.
+
+## Local Development
+
+### Development Scripts
 
 ```bash
 npm start          # Start development server
 npm run build      # Build for production
 npm run test       # Run test suite
 npm run lint       # Check code quality
-````
+```
 
 ### Environment Setup
 
@@ -270,19 +264,16 @@ The app uses browser localStorage to persist:
 ### Common Issues
 
 **Quiz not saving progress:**
-
 - Check if localStorage is enabled in your browser
 - Clear browser cache and try again
 - Ensure you're not in incognito/private browsing mode
 
 **Styling issues:**
-
 - Hard refresh the page (Ctrl+F5 or Cmd+Shift+R)
 - Check if custom CSS is being cached
 - Verify CSS file paths are correct
 
 **Questions not loading:**
-
 - Verify `Data.tsx` file format matches the expected structure
 - Check browser console for JavaScript errors
 - Ensure all required question properties are present
@@ -301,25 +292,24 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- Project was initially forked from Africa Code Academy official github repository as part of a assignment.
+- Project was initially forked from Africa Code Academy official github repository as part of an assignment
 - Built with React and modern web technologies
 - Responsive design inspired by modern UI/UX principles
 - Accessibility features following WCAG guidelines
 
-## Access project
+## Access Project
 
-- licensed under the MIT License
-- github repository [https://github.com/mubureterrance/aca-erp2022-2-Quiz]
-- Deployed and live on [https://aca-erp2022-2-quiz-rho.vercel.app/]
-
----
+- Licensed under the MIT License
+- GitHub repository: [https://github.com/mubureterrance/aca-erp2022-2-Quiz](https://github.com/mubureterrance/aca-erp2022-2-Quiz)
+- Deployed and live on: [https://aca-erp2022-2-quiz-rho.vercel.app/](https://aca-erp2022-2-quiz-rho.vercel.app/)
 
 ## Quick Start Guide
 
 1. **Install dependencies**: `npm install`
-2. **Add your questions**: Edit `Data.tsx`
+2. **Add Firebase environment variables** in `.env.local` (see Firebase Environment Setup section)
 3. **Start developing**: `npm start`
-4. **Customize styling**: Modify `Quiz.css`
-5. **Build for production**: `npm run build`
+4. **Add questions to Firestore** (optional): use the Data.tsx for questions or create your own
+5. **Customize styling**: Modify `Quiz.css`
+6. **Build for production**: `npm run build`
 
 For more detailed information, see the sections above or check the inline code documentation.
