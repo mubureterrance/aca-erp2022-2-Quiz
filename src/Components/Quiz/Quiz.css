@@ -539,3 +539,27 @@ body {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     }
 }
+
+.feedback-section {
+  margin-top: clamp(12px, 2vh, 16px);
+  padding: clamp(8px, 1.5vh, 12px) clamp(12px, 2vw, 16px);
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border-radius: 8px;
+  border: 1px solid #bae6fd;
+  border-left: 3px solid #0ea5e9;
+  flex-shrink: 0;
+}
+
+.feedback-section h3 {
+  margin: 0 0 clamp(4px, 0.5vh, 6px) 0;
+  font-size: clamp(0.8rem, 1.8vh, 0.95rem);
+  font-weight: 600;
+  color: #0c4a6e;
+}
+
+.feedback-section p {
+  margin: 0;
+  font-size: clamp(0.75rem, 1.6vh, 0.85rem);
+  line-height: 1.4;
+  color: #0369a1;
+}

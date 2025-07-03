@@ -1,23 +1,25 @@
 import { useEffect } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
+interface User {
+  uid: string;
+}
+
 /**
- * This custom hook handles:
- *  - loading quiz progress from localStorage on mount
- *  - saving quiz progress whenever the user progresses
+ * Custom hook to manage quiz progress per user using localStorage.
  *
- * It guarantees a consistent quiz experience even across page refreshes.
- *
- * @param index            current question index
- * @param score            current score
- * @param selectedAnswer   current selected answer
- * @param showAnswer       whether answer is currently shown
- * @param setIndex         setter to update question index
- * @param setScore         setter to update score
- * @param setSelectedAnswer setter to update selected answer
- * @param setShowAnswer    setter to update answer display state
+ * @param user              current authenticated user (with uid)
+ * @param index             current question index
+ * @param score             current score
+ * @param selectedAnswer    current selected answer
+ * @param showAnswer        whether the answer is currently shown
+ * @param setIndex          setter for question index
+ * @param setScore          setter for score
+ * @param setSelectedAnswer setter for selected answer
+ * @param setShowAnswer     setter for answer display state
  */
 export const useQuizProgress = (
+  user: User | null,
   index: number,
   score: number,
   selectedAnswer: number | null,
@@ -27,31 +29,33 @@ export const useQuizProgress = (
   setSelectedAnswer: (a: number | null) => void,
   setShowAnswer: (v: boolean) => void
 ) => {
-  // load localStorage utilities
   const { isAvailable, safelyGet, safelySet } = useLocalStorage();
+
+  const storageKey = user ? `quizProgress_${user.uid}` : null;
 
   // Load saved quiz progress on mount
   useEffect(() => {
-    if (!isAvailable()) return;  // localStorage not working? skip.
-    const saved = safelyGet("quizProgress", null);
+    if (!isAvailable() || !storageKey) return;
+
+    const saved = safelyGet(storageKey, null);
     if (saved) {
-      // apply saved values
       setIndex(saved.index);
       setScore(saved.score);
       setSelectedAnswer(saved.selectedAnswer);
       setShowAnswer(saved.showAnswer);
     }
-  }, []);
+  }, [storageKey]);
 
-  // Whenever any quiz state changes, persist progress
+  // Save progress when quiz state changes
   useEffect(() => {
-    if (!isAvailable()) return;
-    safelySet("quizProgress", {
+    if (!isAvailable() || !storageKey) return;
+
+    safelySet(storageKey, {
       index,
       score,
       selectedAnswer,
       showAnswer,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
-  }, [index, score, selectedAnswer, showAnswer]);
+  }, [index, score, selectedAnswer, showAnswer, storageKey]);
 };

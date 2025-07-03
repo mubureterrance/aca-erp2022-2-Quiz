@@ -1,34 +1,53 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from "./Components/Auth/hooks/AuthProvider";
 import Quiz from "./Components/Quiz/Quiz";
 import WelcomePage from "./Components/Welcome/WelcomePage";
+import Login from "./Components/Auth/Login";
+import Register from "./Components/Auth/Register";
+import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 
-import { collection, addDoc } from "firebase/firestore";
-import { data } from "./Data"; // adjust path if needed
-import db from "./firebase"; // your Firestore config
-
-
-const uploadQuestions = async () => {
-  try {
-    const batchUpload = data.map(async (item) => {
-      await addDoc(collection(db, "questions"), item);
-    });
-
-    await Promise.all(batchUpload);
-    console.log("✅ All questions uploaded to Firestore!");
-  } catch (err) {
-    console.error("❌ Failed to upload questions:", err);
-  }
-};
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/quiz" element={<Quiz />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<WelcomePage />} />
+          <Route 
+              path="/login" 
+              element={
+                <ProtectedRoute>
+                  <Login />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/register" 
+              element={
+                <ProtectedRoute>
+                  <Register />
+                </ProtectedRoute>
+              } 
+            />
+          
+        {/* Protected routes that require authentication */}
+          <Route path="/" element={
+            <ProtectedRoute>
+              <WelcomePage />
+            </ProtectedRoute>
+            }/>
+          <Route path="/quiz" element={
+            <ProtectedRoute>
+              <Quiz />
+            </ProtectedRoute>
+              
+            } />
+        </Routes>
+      </Router>
+    </AuthProvider>
+    
   );
 }
 
