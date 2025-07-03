@@ -1,6 +1,7 @@
 # Quiz App
 
 A modern, interactive quiz application built with React and TypeScript featuring persistent progress tracking, performance analytics, and a responsive design.
+This project was part of the Africa Code Acadamy Engineering Residency program 
 
 ## Features
 
@@ -243,7 +244,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - licensed under the MIT License
 - github repository [https://github.com/mubureterrance/aca-erp2022-2-Quiz]
-- Live deployed and live on [https://aca-erp2022-2-quiz-rho.vercel.app/]
+- Deployed and live on [https://aca-erp2022-2-quiz-rho.vercel.app/]
 
 ---
 
