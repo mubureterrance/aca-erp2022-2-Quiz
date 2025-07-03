@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Quiz.css";
 import { data } from "../../Data";
+import db from "../../firebase";
+import { collection, getDocs } from 'firebase/firestore';
 import { useLocalStorage } from "../Quiz/hooks/useLocalStorage";
 import { useQuizProgress } from "../Quiz/hooks/useQuizProgress";
 import { useQuestionPerformance } from "../Quiz/hooks/useQuestionPerformance";
+
 
 // Type definition for strong typing of each question
 interface QuizQuestion {
@@ -15,9 +18,90 @@ interface QuizQuestion {
   ans: number;
 }
 
-const quizData: QuizQuestion[] = data; //wraps imported data into a strictly typed array of questions
+interface QuizQuestionWithId extends QuizQuestion {
+  id: string;
+}
+
+const useQuizData = () => {
+  const [quiz, setQuiz] = useState<QuizQuestionWithId[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("🔍 Starting to fetch quiz data from Firebase...");
+        console.log("📊 Database instance:", db);
+        
+        setLoading(true);
+        setError(null);
+
+        const querySnapshot = await getDocs(collection(db, 'questions'));
+        
+        console.log("📝 Query snapshot received:", querySnapshot);
+        console.log("📊 Number of documents:", querySnapshot.docs.length);
+
+        if (querySnapshot.empty) {
+          console.warn("⚠️ No documents found in 'quiz' collection");
+          setError("No quiz questions found in database");
+          setLoading(false);
+          return;
+        }
+
+        const quizData: QuizQuestionWithId[] = querySnapshot.docs.map((doc, index) => {
+          const data = doc.data();
+          console.log(`📄 Document ${index + 1} (ID: ${doc.id}):`, data);
+          
+          // Validate required fields
+          const requiredFields = ['question', 'option1', 'option2', 'option3', 'option4', 'ans'];
+          const missingFields = requiredFields.filter(field => !data.hasOwnProperty(field));
+          
+          if (missingFields.length > 0) {
+            console.warn(`⚠️ Document ${doc.id} missing fields:`, missingFields);
+          }
+
+          return {
+            id: doc.id,
+            question: data.question || "Question not available",
+            option1: data.option1 || "Option 1 not available",
+            option2: data.option2 || "Option 2 not available", 
+            option3: data.option3 || "Option 3 not available",
+            option4: data.option4 || "Option 4 not available",
+            ans: data.ans || 1,
+          };
+        });
+
+        console.log("✅ Successfully processed quiz data:", quizData);
+        setQuiz(quizData);
+        setLoading(false);
+
+      } catch (err) {
+        console.error("❌ Error fetching quiz data:", err);
+        setError(`Failed to load quiz data: ${err instanceof Error ? err.message : String(err)}`);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return { quiz, loading, error };
+};
+
+
 
 const Quiz: React.FC = () => {
+
+  const { quiz: quizData, loading, error } = useQuizData(); //wraps imported data into a strictly typed array of questions
+  
+  // Log the quiz data state
+  console.log("🎯 Quiz component state:", { 
+    quizDataLength: quizData.length, 
+    loading, 
+    error,
+    quizData: quizData.slice(0, 2) // Log first 2 items for inspection
+  });
+
   //check if localStorage works
   //get existing saved data
   // track per-question correct/incorrect
@@ -76,11 +160,50 @@ const Quiz: React.FC = () => {
     setSelectedAnswer,
     setShowAnswer
   );
+
+  // Handle loading state
+  if (loading) {
+    return (
+      <div className="container">
+        <h1>Loading Quiz...</h1>
+        <p>Fetching questions from Firebase...</p>
+      </div>
+    );
+  }
+
+  // Handle error state
+  if (error) {
+    return (
+      <div className="container">
+        <h1>Error Loading Quiz</h1>
+        <p style={{ color: 'red' }}>{error}</p>
+        <button onClick={() => window.location.reload()}>
+          Retry
+        </button>
+      </div>
+    );
+  }
+
   // safe fallback if there’s no data (fail gracefully)
-  if (!quizData || quizData.length === 0) {
+  /*if (!quizData || quizData.length === 0) {
     return (
       <div className="container">
         <h1>No quiz data available</h1>
+      </div>
+    );
+  }
+    */
+
+  // Handle no data state
+  if (!quizData || quizData.length === 0) {
+    return (
+      <div className="container">
+        <h1>No Quiz Data Available</h1>
+        <p>No questions found in the database.</p>
+        <details>
+          <summary>Debug Information</summary>
+          <pre>{JSON.stringify({ quizData, loading, error }, null, 2)}</pre>
+        </details>
       </div>
     );
   }
