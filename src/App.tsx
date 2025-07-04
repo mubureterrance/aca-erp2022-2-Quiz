@@ -10,7 +10,7 @@ import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 
 function App() {
   return (
-    
+    <AuthProvider>
       <Router>
         <Routes>
           {/* Public routes */}
@@ -46,6 +46,7 @@ function App() {
             } />
         </Routes>
       </Router>
+    </AuthProvider>
     
   );
 }
