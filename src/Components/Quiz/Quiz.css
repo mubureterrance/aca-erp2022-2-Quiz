@@ -56,6 +56,7 @@
     gap: clamp(16px, 2vh, 24px);
     flex: 1;
     min-height: 0;
+    margin-bottom: clamp(16px, 3vh, 24px);
 }
 
 /* Options List */
@@ -287,9 +288,6 @@ body {
 .score-percentage {
     font-size: 3rem;
 }
-
-/* Removed the problematic responsive override */
-/* The quiz-controls will now maintain horizontal layout on all screen sizes */
 
 /* Quiz header with reset button */
 .quiz-header {
@@ -541,7 +539,7 @@ body {
 }
 
 .feedback-section {
-  margin-top: clamp(12px, 2vh, 16px);
+  margin-top: clamp(24px, 4vh, 32px);
   padding: clamp(8px, 1.5vh, 12px) clamp(12px, 2vw, 16px);
   background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   border-radius: 8px;
