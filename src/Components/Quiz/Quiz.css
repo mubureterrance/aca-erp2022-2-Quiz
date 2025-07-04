@@ -567,3 +567,16 @@ body {
   display: flex;
   align-items: center;
 }
+
+.button-Signout {
+  background-color: inherit; /* Takes parent's background */
+  border: none;              /* Removes border */
+  color: inherit;            /* Inherits text color */
+  padding: 0.5rem 1rem;      /* Optional spacing */
+  font: inherit;             /* Inherit font styles */
+  cursor: pointer;           /* Pointer on hover */
+}
+
+.button-Signout:hover {
+  opacity: 0.8;
+}
